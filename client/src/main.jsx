@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { io } from "socket.io-client";
 import "./styles.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API_URL = import.meta.env.VITE_API_URL || "https://us-vhat-9z9u.onrender.com";
 
 function AuthForm({ onAuth }) {
   const [mode, setMode] = useState("login");

@@ -165,7 +165,17 @@ io.on("connection", (socket) => {
     });
   });
 });
+import path from "path";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "../../client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../client/dist/index.html"));
+});
 server.listen(PORT, () => {
   console.log(`Chat server listening on http://localhost:${PORT}`);
 });
