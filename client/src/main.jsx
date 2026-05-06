@@ -25,7 +25,7 @@ function AuthForm({ onAuth }) {
   },
   body: JSON.stringify({
     username,
-    password
+    password,
   })
 });
       const data = await response.json().catch(() => ({}));
