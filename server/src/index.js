@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 4000;
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:5173";
 
 const users = new Map();
+const passwords = new Map();
 const sessions = new Map();
 const messages = []; 
 
@@ -69,7 +70,12 @@ app.get("/health", (_req, res) => {
 
 app.post("/api/signup", (req, res) => {
   const username = String(req.body.username || "").trim();
-
+const password = String(req.body.password || "").trim();
+if (password.length < 4) {
+  return res.status(400).json({
+    error: "Password must be at least 4 characters."
+  });
+}
   if (username.length < 3) {
     return res.status(400).json({
       error: "Username must be at least 3 characters."
@@ -91,6 +97,7 @@ app.post("/api/signup", (req, res) => {
   const token = uuid();
 
   users.set(user.id, user);
+  passwords.set(user.id, password);
   sessions.set(token, user.id);
 
   res.status(201).json({ token, user: publicUser(user) });
@@ -106,6 +113,13 @@ app.post("/api/login", (req, res) => {
     return res.status(401).json({ error: "Username not found. Sign up first." });
   }
 
+  const savedPassword = passwords.get(user.id);
+
+if (savedPassword !== password) {
+  return res.status(401).json({
+    error: "Wrong password."
+  });
+}
   const token = uuid();
   sessions.set(token, user.id);
 
