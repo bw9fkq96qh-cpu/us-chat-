@@ -8,6 +8,7 @@ const API_URL = "https://us-chat-9z9u.onrender.com";
 function AuthForm({ onAuth }) {
   const [mode, setMode] = useState("login");
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -40,7 +41,7 @@ function AuthForm({ onAuth }) {
     <main className="auth-page">
       <form className="auth-panel" onSubmit={submit}>
         <div>
-          <p className="eyebrow">Socket.io Chat</p>
+          <p className="eyebrow">US Chat</p>
           <h1>{mode === "login" ? "Welcome back" : "Create an account"}</h1>
         </div>
 
@@ -68,9 +69,13 @@ function AuthForm({ onAuth }) {
             minLength={3}
             value={username}
             onChange={(event) => setUsername(event.target.value)}
-            placeholder="alex"
-            required
-          />
+          /> 
+ <input
+  type="password"
+  placeholder="Password"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
         </label>
 
         {error && <p className="error">{error}</p>}
