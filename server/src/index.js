@@ -13,7 +13,7 @@ const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || "http://localhost:5173";
 
 const users = new Map();
 const sessions = new Map();
-const messages = [];
+const messages = []; 
 
 const app = express();
 app.use(cors({ origin: CLIENT_ORIGIN }));
