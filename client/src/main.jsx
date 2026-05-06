@@ -70,13 +70,17 @@ function AuthForm({ onAuth }) {
             value={username}
             onChange={(event) => setUsername(event.target.value)}
           /> 
-   <input
-  type="password"
-  placeholder="Password"
-  value={password}
-  onChange={(e) => setPassword(e.target.value)}
-/>
+          </label>
+ <label>
+  Password
+  <input
+    type="password"
+    placeholder="Password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
 </label>
+
 
         {error && <p className="error">{error}</p>}
 
