@@ -113,12 +113,13 @@ app.post("/api/login", (req, res) => {
     return res.status(401).json({ error: "Username not found. Sign up first." });
   }
 
-  const savedPassword = passwords.get(user.id);
+ const savedPassword = passwords.get(user.id);
 
 if (savedPassword !== password) {
   return res.status(401).json({
     error: "Wrong password."
   });
+
 }
   const token = uuid();
   sessions.set(token, user.id);
