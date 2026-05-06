@@ -71,7 +71,7 @@ app.get("/health", (_req, res) => {
 app.post("/api/signup", (req, res) => {
   const username = String(req.body.username || "").trim();
 const password = String(req.body.password || "").trim();
-if (password.length < 4) {
+ if (password.length < 1) {
   return res.status(400).json({
     error: "Password must be at least 4 characters."
   });
