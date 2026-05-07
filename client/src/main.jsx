@@ -133,6 +133,13 @@ function ChatApp({ auth, onLogout }) {
   }, 1500);
 });
     socket.on("chat:system", (message) => {
+      socket.on("typing", (username) => {
+  setTypingUser(username);
+
+  setTimeout(() => {
+    setTypingUser("");
+  }, 1000);
+});
       setMessages((current) => [...current, { ...message, system: true }]);
     });
     socket.on("users:online", setOnlineUsers);
