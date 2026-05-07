@@ -132,14 +132,7 @@ function ChatApp({ auth, onLogout }) {
     setTypingUser("");
   }, 1500);
 });
-    socket.on("chat:system", (message) => {
-      socket.on("typing", (username) => {
-  setTypingUser(username);
-
-  setTimeout(() => {
-    setTypingUser("");
-  }, 1000);
-});
+    socket.on("chat:system", (message) => { 
       setMessages((current) => [...current, { ...message, system: true }]);
     });
     socket.on("users:online", setOnlineUsers);
@@ -236,6 +229,7 @@ function ChatApp({ auth, onLogout }) {
             value={draft}
            onChange={(event) => {
   setDraft(event.target.value);
+  console.log("typing emitted");
   socket.emit("typing", auth.user.username);
 }}
             placeholder="Type a message..."
