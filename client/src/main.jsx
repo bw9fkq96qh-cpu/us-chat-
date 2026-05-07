@@ -224,23 +224,24 @@ function ChatApp({ auth, onLogout }) {
     {typingUser} is typing...
   </p>
 )}
-        <form className="composer" onSubmit={sendMessage}>
-         <input
-  type="text"
-  value={draft}
-  onChange={(event) => {
-    console.log("typing emitted");
-    setDraft(event.target.value);
-    socket.emit("typing", auth.user.username);
-  }}
-  placeholder="Type a message..."
-  maxLength={1000}
-/>
-          <button className="primary" type="submit">
-            Send
-          </button>
-        </form>
-      </section>
+       <form className="composer" onSubmit={sendMessage}>
+  <input
+    type="text"
+    value={draft}
+    onChange={(event) => {
+      console.log("typing emitted");
+      setDraft(event.target.value);
+      socket.emit("typing", auth.user.username);
+    }}
+    placeholder="Type a message..."
+    maxLength={1000}
+  />
+
+  <button className="primary" type="submit">
+    Send
+  </button>
+</form>
+</section>
 
       <aside className="sidebar">
         <h2>Online</h2>
