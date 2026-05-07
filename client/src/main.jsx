@@ -111,11 +111,15 @@ function ChatApp({ auth, onLogout }) {
   const socket = useMemo(
     () =>
       io(API_URL, {
-        auth: { token: auth.token },
-        autoConnect: true
-      }),
+  auth: {
+    token: auth.token,
+  },
+  transports: ["websocket", "polling"],
+  reconnection: true,
+  reconnectionAttempts: 10,
+}),
     [auth.token]
-  );
+);
 
   useEffect(() => {
     socket.on("connect", () => setSocketStatus("online"));
