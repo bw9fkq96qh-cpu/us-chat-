@@ -11,6 +11,8 @@ function AuthForm({ onAuth }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+const [messages, setMessages] = useState([]);
 
   async function submit(event) {
     event.preventDefault();
@@ -102,6 +104,8 @@ function ChatApp({ auth, onLogout }) {
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [draft, setDraft] = useState("");
+  const [typingUser, setTypingUser] = useState("");
+  const secretMode = true;
   const bottomRef = useRef(null);
 
   const socket = useMemo(
@@ -121,6 +125,13 @@ function ChatApp({ auth, onLogout }) {
     socket.on("message:new", (message) => {
       setMessages((current) => [...current, message]);
     });
+    socket.on("typing", (username) => {
+  setTypingUser(username);
+
+  setTimeout(() => {
+    setTypingUser("");
+  }, 1500);
+});
     socket.on("chat:system", (message) => {
       setMessages((current) => [...current, { ...message, system: true }]);
     });
@@ -173,9 +184,11 @@ function ChatApp({ auth, onLogout }) {
           </div>
         </header>
 
-        <div className="messages" aria-live="polite">
+        <div className="me" aria-live="polite">
           {messages.length === 0 && (
-            <div className="empty-state">No messages yet. Start the conversation.</div>
+          <div className="empty-state">
+  No messages yet. Start the conversation.
+</div>
           )}
 
           {messages.map((message) =>
@@ -206,10 +219,18 @@ function ChatApp({ auth, onLogout }) {
           <div ref={bottomRef} />
         </div>
 
+{typingUser && (
+  <p className="typing-text">
+    {typingUser} is typing...
+  </p>
+)}
         <form className="composer" onSubmit={sendMessage}>
           <input
             value={draft}
-            onChange={(event) => setDraft(event.target.value)}
+           onChange={(event) => {
+  setDraft(event.target.value);
+  socket.emit("typing", auth.user.username);
+}}
             placeholder="Type a message..."
             maxLength={1000}
           />
