@@ -68,7 +68,7 @@ app.get("/health", (_req, res) => {
   res.json({ ok: true });
 });
 
-app.post("/api/signup", (req, res) => {
+app.post("/api/signup", async (req, res) => {
   const username = String(req.body.username || "").trim();
 const password = String(req.body.password || "").trim();
  if (password.length < 1) {
@@ -103,7 +103,7 @@ const password = String(req.body.password || "").trim();
   res.status(201).json({ token, user: publicUser(user) });
 });
 
-app.post("/api/login", (req, res) => {
+app.post("/api/login", async (req, res) => {
   const username = String(req.body.username || "").trim();
   const user = [...users.values()].find(
     (candidate) => candidate.username.toLowerCase() === username.toLowerCase()
@@ -175,8 +175,10 @@ io.on("connection", (socket) => {
     ack?.({ ok: true });
   });
 socket.on("typing", (username) => {
+  console.log("typing received:", username);
   socket.broadcast.emit("typing", username);
 });
+console.log("typing received:", username);
 
   socket.on("disconnect", () => {
     sendOnlineUsers();
