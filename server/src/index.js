@@ -174,7 +174,7 @@ io.on("connection", (socket) => {
     io.emit("message:new", message);
     ack?.({ ok: true });
   });
-  socket.on("typing", (username) => {
+socket.on("typing", (username) => {
   socket.broadcast.emit("typing", username);
 });
 
